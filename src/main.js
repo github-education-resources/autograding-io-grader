@@ -31,9 +31,9 @@ function run() {
             throw new Error(`Invalid comparison method: ${comparisonMethod}`);
         }
 
-        const timeout = parseInt(core.getInput('timeout', {
+        const timeout = parseFloat(core.getInput('timeout', {
             required: true
-        })) * 1000; // Convert to ms
+        })) * 60000; // Convert to ms
 
         if (!testName || !command || !expectedOutput || !comparisonMethod, !timeout) {
             throw new Error("Required inputs are missing or invalid");

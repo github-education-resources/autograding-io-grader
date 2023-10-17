@@ -100,7 +100,7 @@ test('handles command timeout correctly', () => {
     process.env['INPUT_INPUT'] = '';
     process.env['INPUT_EXPECTED-OUTPUT'] = 'beef';
     process.env['INPUT_COMPARISON-METHOD'] = 'exact';
-    process.env['INPUT_TIMEOUT'] = '1'; // 1 second timeout
+    process.env['INPUT_TIMEOUT'] = '0.01'; // ~1 second timeout
 
     const child = cp.spawnSync(np, [ip], options);
     const stdout = child.stdout.toString();
