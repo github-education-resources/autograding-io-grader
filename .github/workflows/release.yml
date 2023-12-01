@@ -13,7 +13,7 @@ jobs:
           echo "Checkout the release branch"
           git fetch && git checkout releases/v1  
           echo "Bring latest changes from main"
-          git reset --hard main
+          git reset --hard origin/main
           echo "Install dependencies"
           npm install
           echo "run build script"
