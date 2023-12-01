@@ -18,9 +18,10 @@ jobs:
           npm install
           echo "run build script"
           npm run build
-          echo "Commit"
+          echo "Set global git config"
           git config --global user.name 'Release Bot'
           git config --global user.email 'release-bot@users.noreply.github.com'
+          echo "Commit"
           git commit -am "v1"
           echo "Force push to overwrite any previous commits for this branch"
           git push -f origin releases/v1
