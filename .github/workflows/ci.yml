@@ -24,6 +24,7 @@ jobs:
           input: "from stdin"
           expected-output: "from stdin"
           comparison-method: "contains"
+      - run: npm build --if-present
       - name: Decode and assert echo-test
         uses: actions/github-script@v6
         with:
