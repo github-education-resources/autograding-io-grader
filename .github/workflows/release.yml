@@ -1,13 +1,24 @@
 name: Release
 on:
   workflow_dispatch:
+  
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          
       - name: Release
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           set -e
           echo "Checkout the release branch"
@@ -18,9 +29,6 @@ jobs:
           npm install
           echo "run build script"
           npm run build
-          echo "Set global git config"
-          git config --global user.name 'Release Bot'
-          git config --global user.email 'release-bot@users.noreply.github.com'
           echo "Commit changes"
           git add dist/
           git commit -m "Release v1"
