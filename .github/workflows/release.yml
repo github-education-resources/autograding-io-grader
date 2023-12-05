@@ -16,11 +16,9 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Release
-        shell: bash
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
-          set -e
           echo "Checkout the release branch"
           git fetch && git checkout releases/v1  
           echo "Bring latest changes from main"
