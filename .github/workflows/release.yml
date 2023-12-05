@@ -6,38 +6,19 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      
       - name: Generate a token
         id: generate_token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.RELEASE_BOT_ID }}
           private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
-    
-      - uses: actions/checkout@v4
-      
-      - name: Release
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-        run: |
-          echo "Checkout the release branch"
-          git fetch && git checkout releases/v1  
-          echo "Bring latest changes from main"
-          git reset --hard origin/main
-          echo "Install dependencies"
-          npm install
-          echo "run build script"
-          npm run build
-          echo "Set global git config"
-          git config --global user.name 'Release Bot'
-          git config --global user.email 'release-bot@users.noreply.github.com'
-          echo "Commit changes"
-          git add dist/
-          git commit -m "Release v1"
-          echo "Force push to overwrite any previous commits for this branch"
-          git push -f origin releases/v1
-          echo "Remove previously pushed tags (v1 will be unusable momentarily until you re-push)"
-          git push origin :refs/tags/v1
-          echo "Re-apply the tag"
-          git tag -fa v1 -m "v1"
-          echo "Push everything"
-          git push origin v1
+        with:
+          tag_name: v1
