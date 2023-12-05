@@ -32,3 +32,4 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         with:
           tag: v1
+          allowUpdates: true
