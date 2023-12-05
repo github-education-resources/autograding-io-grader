@@ -29,6 +29,9 @@ jobs:
           npm install
           echo "run build script"
           npm run build
+          echo "Set global git config"
+          git config --global user.name 'Release Bot'
+          git config --global user.email 'release-bot@users.noreply.github.com'
           echo "Commit changes"
           git add dist/
           git commit -m "Release v1"
