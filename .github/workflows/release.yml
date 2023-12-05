@@ -23,13 +23,13 @@ jobs:
         run: |
           git config user.name autograding-release-bot
           git config user.email autograding-release-bot+education@github.com
-          git tag -f v1 v1
-          git push origin v1 --force
+          git tag -f v2 v2
+          git push origin v2 --force
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1    
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         with:
-          tag: v1
+          tag: v2
           allowUpdates: true
