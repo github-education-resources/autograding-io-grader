@@ -8,6 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: releases/v1
           fetch-depth: 0
       
       - name: Generate a token
@@ -23,13 +24,21 @@ jobs:
         run: |
           git config user.name autograding-release-bot
           git config user.email autograding-release-bot+education@github.com
-          git tag -f v2 v2
-          git push origin v2 --force
+          git reset --hard origin/main
+          npm install --silent
+          npm run build
+          git add dist/
+          git commit -m "Release v1"
+          git push -f origin releases/v1
+          git tag -f v1 v1
+          git push origin :refs/tags/v1
+          git tag -fa v1 -m "v1"
+          git push origin v1 --force
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1    
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         with:
-          tag: v2
+          tag: v1
           allowUpdates: true
