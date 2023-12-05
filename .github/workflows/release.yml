@@ -29,8 +29,6 @@ jobs:
           git commit -m "Release v1"
           git push -f origin releases/v1
       - name: Tag and push v1
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git tag -f v1 v1
           git push origin v1 --force
