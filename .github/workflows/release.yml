@@ -10,29 +10,29 @@ jobs:
         with:
           ref: releases/v1
           fetch-depth: 0
-      
       - name: Generate a token
         id: generate_token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.RELEASE_BOT_ID }}
           private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
-
-      - name: Update tag v1 from main
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+      - name: Git config
         run: |
           git config user.name autograding-release-bot
           git config user.email autograding-release-bot+education@github.com
+      - name: Run build and commit to releases/v1
+        run: |
           git reset --hard origin/main
           npm install --silent
           npm run build
           git add dist/
           git commit -m "Release v1"
           git push -f origin releases/v1
+      - name: Tag and push v1
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
           git tag -f v1 v1
-          git push origin :refs/tags/v1
-          git tag -fa v1 -m "v1"
           git push origin v1 --force
       - name: Create Release
         id: create_release
