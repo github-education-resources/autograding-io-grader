@@ -10,12 +10,6 @@ jobs:
         with:
           ref: releases/v1
           fetch-depth: 0
-      - name: Generate a token
-        id: generate_token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.RELEASE_BOT_ID }}
-          private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
       - name: Git config
         run: |
           git config user.name autograding-release-bot
@@ -34,9 +28,7 @@ jobs:
           git push origin v1 --force
       - name: Create Release
         id: create_release
-        uses: ncipollo/release-action@v1    
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+        uses: ncipollo/release-action@v1
         with:
           tag: v1
           allowUpdates: true
