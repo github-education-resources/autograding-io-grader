@@ -1,5 +1,6 @@
 const {execSync} = require('child_process')
 const core = require('@actions/core')
+const {spawn} = require('child_process')
 
 const env = {
   PATH: process.env.PATH,
@@ -90,11 +91,9 @@ function run() {
     inputs = getInputs()
 
     if (inputs.setupCommand) {
-      execSync(inputs.setupCommand, {
-        timeout: inputs.timeout,
-        stdio: 'ignore',
+      spawn(inputs.setupCommand, {
+        shell: true,
         env,
-
       })
     }
 
