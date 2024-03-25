@@ -91,10 +91,13 @@ function run() {
     inputs = getInputs()
 
     if (inputs.setupCommand) {
-      spawn(inputs.setupCommand, {
-        shell: true,
+      console.log(inputs.setupCommand)
+      const val = execSync(inputs.setupCommand, {
+        timeout: inputs.timeout,
+        stdio: 'inherit',
         env,
       })
+      // console.log(val.toString())
     }
 
     const startTime = new Date()
